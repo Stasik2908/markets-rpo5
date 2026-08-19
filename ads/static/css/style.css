@@ -1,0 +1,60 @@
+* {
+    font-family: 'Inter', sans-serif;
+}
+
+.search-form {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.avatar-letter {
+    width: 40px;
+    height: 40px;
+    background-color: #0d6efd;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.avatar-letter:hover {
+    background-color: #0b5ed7;
+    color: white;
+}
+
+.text-center{
+    align-items: center;
+    justify-content: center;
+}
+
+/* Фиксированный контейнер для аватарки */
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin: 0 auto 15px;
+    display: block;
+}
+
+/* Стили для буквы (если фото нет) */
+.avatar-letter {
+    width: 150px;
+    height: 150px;
+    background: linear-gradient(45deg, #0d6efd, #0dcaf0);
+    color: white;
+    font-size: 64px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    text-transform: uppercase;
+}
+
+

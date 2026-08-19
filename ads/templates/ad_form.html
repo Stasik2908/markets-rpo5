@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}Создать объявление - Ad-Project{% endblock %}
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm mt-4">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Добавить объявление</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Заголовок</label>
+                        <input type="text" name="title" class="form-control" value="{{ ad.title }}" placeholder="Что вы продаете?" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Категория</label>
+                        <select name="category" class="form-select" required>
+                            {% for cat in categories %}
+                                <option value="{{ cat.id }}" {% if cat.id == ad.category.id %}selected{% endif %}>
+                                    {{ cat.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Цена (₸)</label>
+                        <input type="number" name="price" class="form-control" value="{{ ad.price }}" placeholder="0" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Описание</label>
+                        <textarea name="description" class="form-control" rows="4" required>{{ ad.description }}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Фотография</label>
+                        {% if ad.image %}
+                            <p class="small text-muted">Текущее фото: {{ ad.image.name }}</p>
+                        {% endif %}
+                        <input type="file" name="image" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Сохранить изменения</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

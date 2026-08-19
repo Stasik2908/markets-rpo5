@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% block title %}Мой профиль - {{ user.username }}{% endblock %}
+
+{% block content %}
+<div class="row mt-4">
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm text-center p-3">
+            {% if user.profile.image %}
+                <img src="{{ user.profile.image.url }}" class="profile-avatar mb-2" alt="{{ user.username }}" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; margin: 0 auto;">
+            {% else %}
+                <div class="avatar-letter mb-2" style="width: 120px; height: 120px; background: #e9ecef; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 3rem; margin: 0 auto;">
+                    {{ user.username|first|upper }}
+                </div>
+            {% endif %}
+            <h4 class="m-2 p-0">{{ user.username }}</h4>
+            <p class="text-muted m-0 p-0" style="font-size: 1rem;">
+                На сайте с {{ user.date_joined|date:"Y" }} года
+            </p>
+
+            <p class="text-dark m-0 p-0" style="font-size: 0.9rem;">
+                {% if user.profile.bio %}
+                    {{ user.profile.bio }}
+                {% else %}
+                    <span class="text-secondary small">Описание не заполнено</span>
+                {% endif %}
+            </p>
+
+            <p class="text-secondary mt-1 mb-3" style="font-size: 0.8rem;">
+                {{ user.email }}
+            </p>
+
+            <button type="button" class="btn btn-outline-primary btn-sm w-100" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                Редактировать профиль
+            </button>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <h3 class="mb-3">Мои объявления</h3>
+        <ul class="list-group mb-5 shadow-sm">
+            {% for ad in user_ads %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>{{ ad.title }}</strong>
+                        <span class="text-muted small ms-2">({{ ad.price }} ₸)</span>
+                    </div>
+                    <div>
+                        <span class="badge bg-success rounded-pill me-2">Активно</span>
+                        <a href="{% url 'ad_detail' ad.pk %}" class="btn btn-sm btn-outline-dark">Смотреть</a>
+                        <a href="{% url 'ad_delete' ad.pk %}" class="btn btn-sm btn-outline-danger">Удалить</a>
+                    </div>
+                </li>
+            {% empty %}
+                <li class="list-group-item text-muted">Вы еще не создали ни одного объявления.</li>
+            {% endfor %}
+        </ul>
+        <h3 class="mb-3">Избранное (❤️)</h3>
+        <ul class="list-group shadow-sm">
+            {% for fav in favorite_ads %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>{{ fav.ad.title }}</strong>
+                        <span class="text-muted small ms-2">({{ fav.ad.price }} ₸)</span>
+                    </div>
+                    <div>
+                        <a href="{% url 'ad_detail' fav.ad.pk %}" class="btn btn-sm btn-primary">Посмотреть</a>
+                        <a href="{% url 'toggle_favorite' fav.ad.id %}" class="btn btn-sm btn-outline-danger">❌</a>
+                    </div>
+                </li>
+            {% empty %}
+                <li class="list-group-item text-muted">В избранном пока пусто.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Редактирование профиля</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Новый аватар</label>
+                        <input type="file" name="avatar" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">О себе</label>
+                        <textarea name="bio" class="form-control" rows="3" placeholder="Расскажите о себе...">{{ user.profile.bio }}</textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
