@@ -25,7 +25,11 @@ SECRET_KEY = 'django-insecure-ea)=3krto+5=i5m^jp6w#0gh5oq)sm-4)trixu-b242dxr=6fo
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "markets-rpo5-7nf9.vercel.app",
+    "localhost",
+    "127.0.0.1",
+]
 
 
 # Application definition
@@ -79,6 +83,9 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
+# session settings redis
 
 
 # Password validation
