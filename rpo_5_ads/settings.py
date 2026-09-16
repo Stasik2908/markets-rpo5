@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-ea)=3krto+5=i5m^jp6w#0gh5oq)sm-4)trixu-b242dxr=6fo
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "markets-rpo5-7nf9.vercel.app",
+    ".vercel.app",
     "localhost",
     "127.0.0.1",
 ]
